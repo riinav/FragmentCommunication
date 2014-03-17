@@ -18,6 +18,18 @@ public class FragmentA extends Fragment {
     private int counter = 0;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // for the first time
+        if (savedInstanceState == null) {
+            counter = 0;
+        } else { //possible, in diff oritiantion and may be recreated
+            counter = savedInstanceState.getInt("counter", 0);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         return  inflater.inflate(R.layout.fragment_a, container, false);
@@ -39,5 +51,13 @@ public class FragmentA extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //Save the value of counter when fragment gets paused...
+        outState.putInt("counter", counter);
     }
 }
